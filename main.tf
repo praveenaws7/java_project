@@ -6,7 +6,7 @@ provider "google" {
 
 resource "google_compute_instance" "gcp-ec2" {
 
-  name         = "fedramp"
+  name         = "fedramp-1"
   machine_type = "n1-standard-1"
 
   boot_disk {
