@@ -14,7 +14,6 @@ jobs:
     name: 'Terraform'
     runs-on: ubuntu-latest
 
-
     defaults:
       run:
         shell: bash
@@ -24,29 +23,43 @@ jobs:
     - name: Checkout
       uses: actions/checkout@v3
 
+    # Authenticate Google Cloud using Workload Identity Federation
     - name: Authenticate Google Cloud
       uses: google-github-actions/auth@v2 
       with:
         workload_identity_provider: 'projects/330224828591/locations/global/workloadIdentityPools/terrafom-github/providers/github'
         service_account: 'terraform-sa@fifth-catcher-418014.iam.gserviceaccount.com'
 
-
-          
+    # Setup Terraform
     - name: Setup Terraform
       uses: hashicorp/setup-terraform@v1
       with:
         cli_config_credentials_token: ${{ secrets.TF_API_TOKEN }}
 
+    # Terraform Format (checks for code formatting)
+    - name: Terraform Fmt
+      run: terraform fmt -check -diff
 
+    # Terraform Validate (validates the configuration files)
+    - name: Terraform Validate
+      run: terraform validate
+
+    # Terraform Init (initializes the working directory)
     - name: Terraform Init
       run: terraform init
 
-
-    # Generates an execution plan for Terraform
+    # Terraform Plan (creates an execution plan)
     - name: Terraform Plan
       run: terraform plan -input=false
 
-
+    # Terraform Apply (applies the plan)
     - name: Terraform Apply
       run: terraform apply -auto-approve -input=false
 
+    # Wait for 10 minutes before running destroy
+    - name: Wait for 10 minutes
+      run: sleep 600  # 600 seconds = 10 minutes
+
+    # Terraform Destroy (destroys the resources after 10 minutes)
+    - name: Terraform Destroy
+      run: terraform destroy -auto-approve -input=false
