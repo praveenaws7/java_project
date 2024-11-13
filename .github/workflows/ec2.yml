@@ -7,7 +7,7 @@ on:
       inputs:
         auto_approve:
           description: 'Should we auto-approve apply?'
-          required: true
+          required: false
           default: 'false'
 
 permissions:
@@ -16,7 +16,7 @@ permissions:
 
 jobs:
   terraform-gcp:
-    name: 'Terraform'
+    name: 'Terraform-GCP'
     runs-on: ubuntu-latest
 
     defaults:
@@ -58,16 +58,20 @@ jobs:
     - name: Terraform Plan
       run: terraform plan -input=false
 
-    # Terraform Apply (applies the plan)
+    - name: Wait for Approval (Manual Confirmation)
+      if: ${{ github.event.inputs.auto_approve == 'false' }}
+      run: |
+        echo "Waiting for manual approval to apply changes..."
+        sleep 600  # 10 minutes, adjust as needed, or make this step more descriptive.
+        
+    # Apply Terraform Changes (only if approval is given)
     - name: Terraform Apply
       run: |
         if [ "${{ github.event.inputs.auto_approve }}" == "true" ]; then
           terraform apply -auto-approve -input=false
         else
           terraform apply -input=false
-        fi
-
-    # Wait for 10 minutes before running destroy
+        fi     
     - name: Wait for 30 seconds
       run: sleep 30  # 600 seconds = 10 minutes
 
