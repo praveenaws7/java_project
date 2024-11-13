@@ -7,7 +7,7 @@ provider "google" {
 
 resource "google_compute_instance" "gcp-ec2" {
 
-  name         = "fedramp-2"
+  name         = "fedramp-1"
   machine_type = "n1-standard-1"
 
   boot_disk {
@@ -26,7 +26,7 @@ resource "google_compute_instance" "gcp-ec2" {
 }
 
 resource "google_compute_firewall" "example_firewall" {
-  name    = "praveen-firewall"
+  name    = "new-firewall"
   network = "default" # Replace with your network name if different
 
   # Ingress (inbound) rule to allow ports 22, 80, and 8080
