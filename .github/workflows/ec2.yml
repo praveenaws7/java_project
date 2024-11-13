@@ -76,7 +76,7 @@ jobs:
       run: echo "Terraform Apply skipped. Manual approval required."  
    
     - name: Wait for 30 seconds
-      run: sleep 30  # 600 seconds = 10 minutes
+      run: sleep 40  # 600 seconds = 10 minutes
 
     # Terraform Destroy (destroys the resources after 10 minutes)
     - name: Terraform Destroy
