@@ -13,5 +13,15 @@ resource "google_storage_bucket" "terraform_state" {
 
   lifecycle {
     prevent_destroy = true
+    ignore_changes = [name]
+  }
+}
+
+# backend.tf
+
+terraform {
+  backend "gcs" {
+    bucket = "fedramao-gcp" # The bucket you created
+    prefix = "terraform/state"          # Optional: prefix for state files
   }
 }
