@@ -21,8 +21,8 @@ resource "google_storage_bucket" "terraform_state" {
 
 terraform {
   backend "gcs" {
-    bucket = "fedramao-gcp" # The bucket you created
-    prefix = "terraform/state"          # Optional: prefix for state files
-    state = "google-cloud-service.tfstate"
+    bucket = "fedramao-gcp"    # The bucket you created
+    prefix = "terraform/state" # Optional: prefix for state files
+    state  = "google-cloud-service.tfstate"
   }
 }

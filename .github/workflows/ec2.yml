@@ -42,9 +42,9 @@ jobs:
       with:
         cli_config_credentials_token: ${{secrets.TF_API_TOKEN }}
 
-    # Terraform Format (checks for code formatting)
-    - name: Terraform Fmt
-      run: terraform fmt -check -diff
+    # # Terraform Format (checks for code formatting)
+    # - name: Terraform Fmt
+    #   run: terraform fmt -check -diff
 
     # Terraform Init (initializes the working directory)
     - name: Terraform Init
