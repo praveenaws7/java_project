@@ -51,13 +51,13 @@ jobs:
     - name: Terraform Plan
       run: terraform plan -input=false
 
-    # Terraform Apply (applies the plan)
-    - name: Terraform Apply
-      run: terraform apply -auto-approve -input=false
+    # # Terraform Apply (applies the plan)
+    # - name: Terraform Apply
+    #   run: terraform apply -auto-approve -input=false
 
-    # Wait for 10 minutes before running destroy
-    - name: Wait for 10 minutes
-      run: sleep 600  # 600 seconds = 10 minutes
+    # # Wait for 10 minutes before running destroy
+    # - name: Wait for 10 minutes
+    #   run: sleep 600  # 600 seconds = 10 minutes
 
     # Terraform Destroy (destroys the resources after 10 minutes)
     - name: Terraform Destroy
