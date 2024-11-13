@@ -1,4 +1,5 @@
 provider "google" {
+  credentials = file("/c/Users/QC/Downloads/credentials.json")
   project = "330224828591"
   region  = "us-east1"
   zone    = "us-east1-b"

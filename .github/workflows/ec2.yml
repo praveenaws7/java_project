@@ -1,46 +1,52 @@
-name: Terraform CI/CD
+name: 'GCP Terraform'
 
 on:
-  # Triggers the workflow when pushing to main or creating a pull request
   push:
-    branches:
-      - main
-  workflow_call:
-    secrets:
-      GCP_CREDENTIALS:
-        required: true
+    branches: [ "main" ]
+  pull_request:
 
+permissions:
+  contents: read
+  id-token: 'write'
 
 jobs:
   terraform:
+    name: 'Terraform'
     runs-on: ubuntu-latest
 
+
+    defaults:
+      run:
+        shell: bash
+
     steps:
-      # Step 1: Checkout the code
-      - name: Checkout code
-        uses: actions/checkout@v3
+    # Checkout the repository to the GitHub Actions runner
+    - name: Checkout
+      uses: actions/checkout@v3
 
-      # Step 2: Set up Terraform
-      - name: Set up Terraform
-        uses: hashicorp/setup-terraform@v2
-        with:
-          terraform_version: 1.5.0 # Specify the Terraform version you need
+    - id: auth
+      uses: google-github-actions/auth@v2.0.0  
+      with:
+        workload_identity_provider: 'projects/330224828591/locations/global/workloadIdentityPools/terrafom-github/providers/github'
+        service_account: 'terraform-sa@fifth-catcher-418014.iam.gserviceaccount.com'
 
-      # Step 3: Configure Google Cloud Credentials
-      - name: Authenticate to GCP
-        uses: google-github-actions/auth@v1
-        with:
-          credentials_json: ${{ secrets.GCP_CREDENTIALS }}
 
-      # Step 4: Initialize Terraform
-      - name: Terraform Init
-        run: terraform init
+          
+    - name: Setup Terraform
+      uses: hashicorp/setup-terraform@v1
+      with:
+        cli_config_credentials_token: ${{ secrets.TF_API_TOKEN }}
 
-      # Step 5: Terraform Plan
-      - name: Terraform Plan
-        run: terraform plan -out=tfplan
 
-      # Step 6: Terraform Apply (only on pushes to main)
-      - name: Terraform Apply
-        if: github.ref == 'refs/heads/main'
-        run: terraform apply -auto-approve tfplan
+    - name: Terraform Init
+      run: terraform init
+
+
+    # Generates an execution plan for Terraform
+    - name: Terraform Plan
+      run: terraform plan -input=false
+
+
+    - name: Terraform Apply
+      run: terraform apply -auto-approve -input=false
+
