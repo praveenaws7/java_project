@@ -3,13 +3,19 @@ name: 'GCP Terraform'
 on:
   push:
     branches: [ "main" ]
+    workflow_dispatch:
+      inputs:
+        auto_approve:
+          description: 'Should we auto-approve apply?'
+          required: true
+          default: 'false'
 
 permissions:
   contents: read
   id-token: 'write'
 
 jobs:
-  terraform:
+  terraform-gcp:
     name: 'Terraform'
     runs-on: ubuntu-latest
 
@@ -54,7 +60,12 @@ jobs:
 
     # Terraform Apply (applies the plan)
     - name: Terraform Apply
-      run: terraform apply -input=true
+      run: |
+        if [ "${{ github.event.inputs.auto_approve }}" == "true" ]; then
+          terraform apply -auto-approve -input=false
+        else
+          terraform apply -input=false
+        fi
 
     # Wait for 10 minutes before running destroy
     - name: Wait for 30 seconds
