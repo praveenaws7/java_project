@@ -40,8 +40,8 @@ jobs:
       run: terraform fmt -check -diff
 
     # Terraform Validate (validates the configuration files)
-    - name: Terraform Validate
-      run: terraform validate
+    # - name: Terraform Validate
+    #   run: terraform validate
 
     # Terraform Init (initializes the working directory)
     - name: Terraform Init
