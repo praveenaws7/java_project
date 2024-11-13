@@ -45,7 +45,7 @@ jobs:
 
     # Terraform Init (initializes the working directory)
     - name: Terraform Init
-      run: terraform init
+      run: terraform init -upgrade
 
     # Terraform Plan (creates an execution plan)
     - name: Terraform Plan
