@@ -59,7 +59,7 @@ jobs:
 
     # Manual Approval Step (Mimic Approval via 'auto_approve' parameter)
     - name: Wait for Approval (Manual Confirmation)
-      run: terraform apply --auto-aprove -input=false
+      run: terraform apply --auto-approve -input=false
 
     - name: Wait for 30 seconds before destroy
       run: |
