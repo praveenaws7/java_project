@@ -39,13 +39,14 @@ jobs:
     - name: Terraform Fmt
       run: terraform fmt -check -diff
 
+
+    # Terraform Init (initializes the working directory)
+    - name: Terraform Init
+      run: terraform init 
     # Terraform Validate (validates the configuration files)
     - name: Terraform Validate
       run: terraform validate
 
-    # Terraform Init (initializes the working directory)
-    - name: Terraform Init
-      run: terraform init -upgrade
 
     # Terraform Plan (creates an execution plan)
     - name: Terraform Plan
