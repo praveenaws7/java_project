@@ -18,6 +18,7 @@ jobs:
   terraform-gcp:
     name: 'Terraform-GCP'
     runs-on: ubuntu-latest
+    environment: dev
 
     defaults:
       run:
@@ -32,14 +33,14 @@ jobs:
     - name: Authenticate Google Cloud
       uses: google-github-actions/auth@v2 
       with:
-        workload_identity_provider: ${{ secrets.WORKLOAD_IDENTITY_PROVIDER }}
-        service_account: ${{ secrets.SERVICE_ACCOUNT_EMAIL }}
+        workload_identity_provider: ${{secrets.WORKLOAD_IDENTITY_PROVIDER }}
+        service_account: ${{secrets.SERVICE_ACCOUNT_EMAIL }}
 
     # Setup Terraform
     - name: Setup Terraform
       uses: hashicorp/setup-terraform@v1
       with:
-        cli_config_credentials_token: ${{ secrets.TF_API_TOKEN }}
+        cli_config_credentials_token: ${{secrets.TF_API_TOKEN }}
 
     # Terraform Format (checks for code formatting)
     - name: Terraform Fmt
