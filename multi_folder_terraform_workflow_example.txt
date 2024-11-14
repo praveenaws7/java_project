@@ -1,0 +1,31 @@
+# multi-folder-terraform.yml
+name: Multi-Folder Terraform Workflow
+
+on:
+  push:
+    paths:
+      - 'eks/**'
+      - 'jenkins/**'
+      - 'neptune/**'
+
+jobs:
+  terraform:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        folder: [eks, jenkins, neptune]
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+      - name: Set up Terraform
+        uses: hashicorp/setup-terraform@v2
+      - name: Initialize Terraform
+        working-directory: ./${{ matrix.folder }}
+        run: terraform init
+      - name: Plan Terraform
+        working-directory: ./${{ matrix.folder }}
+        run: terraform plan
+      - name: Apply Terraform
+        if: github.ref == 'refs/heads/main'
+        working-directory: ./${{ matrix.folder }}
+        run: terraform apply -auto-approve
