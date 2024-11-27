@@ -47,15 +47,15 @@ jobs:
     #   run: terraform fmt -check -diff
 
     # Terraform Init (initializes the working directory)
-    - name: Terraform Init
+    - name: Terraform Initiatliation
       run: terraform init 
 
     # Terraform Validate (validates the configuration files)
-    - name: Terraform Validation
+    - name: Terraform TESTING VALIDATION
       run: terraform validate
 
     # Terraform Plan (creates an execution plan)
-    - name: Terraform Plan
+    - name: Terraform Plan for EC2
       run: terraform plan -input=false
 
     # Manual Approval Step (Mimic Approval via 'auto_approve' parameter)
